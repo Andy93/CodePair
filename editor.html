@@ -37,6 +37,15 @@
   }
 
   if(socket !== undefined){
+
+    // after keydown put new string to DB
+    editor.on('change', function(data){
+      var code = editor.getValue();
+        socket.emit('input',{
+          code: code
+        });
+    });
+
     //put latest string in DB to ACE
     socket.on('output', function(data){
       if(data.length){
@@ -45,12 +54,14 @@
       }
     });
 
-    // after keydown put new string to DB
-    /*socket.emit('input',{
-      code: editor.getValue();
-    });*/
 
-    
+    /*
+    //if(asciiValue <=0 || asciiValue >= 255){
+        socket.emit('input',{
+          code: code
+        });
+        console.log("inserted");
+    */
   }
 
 })();
