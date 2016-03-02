@@ -1,7 +1,7 @@
 var mongo = require('mongodb').MongoClient;
-var	app = require('express')();
-var	http = require('http').Server(app);
-var	client = require('socket.io')(http);//.listen(8080).sockets;
+var app = require('express')();
+var http = require('http').Server(app);
+var client = require('socket.io')(http);//.listen(8080).sockets;
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/static' + '/index.html');
