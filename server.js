@@ -1,5 +1,11 @@
-var mongo = require('mongodb').MongoClient,
-	client = require('socket.io').listen(8080).sockets;
+var mongo = require('mongodb').MongoClient;
+var	app = require('express')();
+var	http = require('http').Server(app);
+var	client = require('socket.io')(http);//.listen(8080).sockets;
+
+app.get('/', function(req, res){
+    res.sendFile(__dirname + '/static' + '/index.html');
+});
 
 mongo.connect('mongodb://127.0.0.1/code', function(err, db){
 	if(err) throw err;
@@ -7,12 +13,12 @@ mongo.connect('mongodb://127.0.0.1/code', function(err, db){
 	client.on('connection', function(socket){
 
 		var col = db.collection('messages');
-    //limit to one string to not let after previous emit be presented back to editor
-		col.find().limit(1).sort({_id: 1}).toArray(function(err, res){
+
+		col.find().limit(3).sort({_id: 1}).toArray(function(err, res){
 			if(err) throw err;
 			socket.emit('output',res);
 		});
-
+		
 		socket.on('input', function(data){
 			var code = data.code;
 
@@ -24,4 +30,8 @@ mongo.connect('mongodb://127.0.0.1/code', function(err, db){
 		});
 
 	});
+});
+
+http.listen(8080, function(){
+    console.log('listening on 8080');
 });
