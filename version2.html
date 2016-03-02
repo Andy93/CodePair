@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Editor</title>
+  <style type="text/css" media="screen">
+    body {
+        overflow: hidden;
+    }
+
+    #editor {
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+  </style>
+</head>
+<body>
+
+<script src="http://127.0.0.1:8080/socket.io/socket.io.js"> </script>
+<script>/*
+function update(){
+  try{
+    var socket = io.connect('http://127.0.0.1:8080');
+  } catch(e){
+
+  }
+  var socket = io.connect('http://127.0.0.1:8080');
+  var ace = editor.getSession().getValue();
+  var divecho = document.getElementById("output");
+  divecho.innerHTML=ace
+  socket.emit('input',{
+     code: ace
+  });
+}
+
+(function(){
+  var getNode = function(s){
+    return document.querySelector(s);
+  },
+
+  textarea = getNode('.code editor');
+
+  try{
+    var socket = io.connect('http://127.0.0.1:8080');
+  } catch(e){
+
+  }
+
+  if(socket !== undefined){
+    //put latest string in DB to ACE
+    socket.on('output', function(data){
+      if(data.length){
+        var x = data.length-1;
+        editor.setValue(data[x].code);
+      }
+    });
+  }
+
+})();*/
+</script>
+
+<div id="aceEditor" onChange="update()" style="height: 500px; width: 500px"></div>
+<a href="#" onclick="update()">go</a>
+<div id="output"></div>
+
+<script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"> </script>
+<script>
+    var editor = ace.edit("aceEditor");
+
+    //editor.setValue("new code here");
+    editor.setTheme("ace/theme/twilight");
+    editor.session.setMode("ace/mode/javascript");
+
+    var first_change = true;
+
+    editor.on('change', function(obj) {
+      console.log(obj);
+      update()
+      /*
+      if(first_change == false)
+        editor.setValue('sadsad');
+      first_change = false;*/
+    });
+
+    try{
+      var socket = io.connect('http://127.0.0.1:8080');
+    } catch(e){
+
+    }
+
+  if(socket !== undefined){
+    /*
+        editor.on('input', function(data){
+        var ace = editor.getSession().getValue();
+        socket.emit('input',{code: ace})
+      });*/
+      
+      //put latest string in DB to ACE
+      socket.on('output', function(data){
+        if(data.length){
+          var x = data.length-1;
+          editor.setValue(data[x].code);
+        }
+      });
+
+
+  }
+
+        function update(){
+          var code = editor.getValue();
+          socket.emit('input', {code:code})
+        }
+
+</script>
+
+</body>
+</html>
