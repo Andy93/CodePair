@@ -18,104 +18,40 @@
         right: 0;
     }
   </style>
+  <script type="text/javascript" src="functions.js"></script>
 </head>
 <body>
 
 <script src="http://127.0.0.1:8080/socket.io/socket.io.js"> </script>
-<script>/*
-function update(){
-  try{
-    var socket = io.connect('http://127.0.0.1:8080');
-  } catch(e){
 
-  }
-  var socket = io.connect('http://127.0.0.1:8080');
-  var ace = editor.getSession().getValue();
-  var divecho = document.getElementById("output");
-  divecho.innerHTML=ace
-  socket.emit('input',{
-     code: ace
-  });
-}
-
-(function(){
-  var getNode = function(s){
-    return document.querySelector(s);
-  },
-
-  textarea = getNode('.code editor');
-
-  try{
-    var socket = io.connect('http://127.0.0.1:8080');
-  } catch(e){
-
-  }
-
-  if(socket !== undefined){
-    //put latest string in DB to ACE
-    socket.on('output', function(data){
-      if(data.length){
-        var x = data.length-1;
-        editor.setValue(data[x].code);
-      }
-    });
-  }
-
-})();*/
-</script>
-
-<div id="aceEditor" onChange="update()" style="height: 500px; width: 500px"></div>
-<a href="#" onclick="update()">go</a>
+<div id="aceEditor"  style="height: 500px; width: 500px"></div>
+<a href="#" onclick="">go</a>
 <div id="output"></div>
 
 <script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"> </script>
 <script>
-    var editor = ace.edit("aceEditor");
 
+    var editor = ace.edit("aceEditor");
     //editor.setValue("new code here");
     editor.setTheme("ace/theme/twilight");
     editor.session.setMode("ace/mode/javascript");
+    var session = editor.getSession();
+    session.setUseWrapMode(true);
+    session.setUseWorker(false);
 
-    var first_change = true;
+    window.onload = function(){
+      //socket();
+    };
 
+    //sending code
     editor.on('change', function(obj) {
-      console.log(obj);
-      update()
-      /*
-      if(first_change == false)
-        editor.setValue('sadsad');
-      first_change = false;*/
+      console.log(obj.action);
+      sendCode();
     });
 
-    try{
-      var socket = io.connect('http://127.0.0.1:8080');
-    } catch(e){
+    //recieving code
 
-    }
-
-  if(socket !== undefined){
-    /*
-        editor.on('input', function(data){
-        var ace = editor.getSession().getValue();
-        socket.emit('input',{code: ace})
-      });*/
-      
-      //put latest string in DB to ACE
-      socket.on('output', function(data){
-        if(data.length){
-          var x = data.length-1;
-          editor.setValue(data[x].code);
-        }
-      });
-
-
-  }
-
-        function update(){
-          var code = editor.getValue();
-          socket.emit('input', {code:code})
-        }
-
+    
 </script>
 
 </body>
