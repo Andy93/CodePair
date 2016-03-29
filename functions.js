@@ -27,7 +27,7 @@ function setCode(){
       socket.on('output', function(data){
         if(data.length){
           var x = data.length-1;
-          editor.setValue(data[x].code);
+          navEditor.setValue(data[x].code);
         }
       });
 	}
@@ -40,7 +40,7 @@ function sendCode(){
 
     }
 	if(socket !== undefined){
-		var manip = editor.getSession().getValue();
+		var manip = driverEditor.getSession().getValue();
 	    socket.emit('input',{
 	      code:manip
 	    })
