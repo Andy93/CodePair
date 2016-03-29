@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Editor</title>
+  <style type="text/css" media="screen">
+    body {
+        overflow: hidden;
+    }
+
+    #editor {
+        margin: 0;
+        position: absolute;
+        top: 0;
+    *    bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+  </style>
+  <script type="text/javascript" src="functions.js"></script>
+</head>
+<body>
+
+<script src="http://127.0.0.1:8080/socket.io/socket.io.js"> </script>
+
+<div id="aceEditor"  style="height: 500px; width: 500px"></div>
+<p>
+<div id="aceEditor2"  style="height: 500px; width: 500px"></div>
+
+<script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"> </script>
+<script>
+        var driverEditor = ace.edit("aceEditor");
+        //editor.setValue("new code here");
+        driverEditor.setTheme("ace/theme/twilight");
+        driverEditor.session.setMode("ace/mode/javascript");
+        var session = driverEditor.getSession();
+        session.setUseWrapMode(true);
+        session.setUseWorker(false);
+
+    //sending code
+      driverEditor.on('change', function(obj) {
+        console.log(obj.action);
+        sendCode();
+        setCode();
+      });
+
+        var navEditor = ace.edit("aceEditor2");
+        //$("#aceEditor").css("cursor", "none" );
+        //editor.setValue("new code here");
+        navEditor.setTheme("ace/theme/twilight");
+        navEditor.session.setMode("ace/mode/javascript");
+ 
+
+</script>
+
+</body>
+</html>
