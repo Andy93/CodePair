@@ -46,3 +46,19 @@ function sendCode(){
 	    })
 	}
 }
+
+// create string of word-number-word for url 
+// take one word from file of words
+// create random number from scratch 
+// take another word then concatenate and return
+function createString() {
+ 	var hash;
+	var firstWord, secondWord, number;
+
+	var selectorOne =math.random();
+	var selectorTwo =math.random();
+	number = math.random();
+
+	hash= firstWord + number + secondWord;
+	return hash;
+}  
