@@ -62,3 +62,22 @@ function createString() {
 	hash= firstWord + number + secondWord;
 	return hash;
 }  
+
+
+// function to collect code from editor for repo download, User can click button to download code changes
+// set timer in main code to run this method every 10 mins, for user to review afterwards.
+// perhaps put to Session Storage in HTML5
+function collectCode(){
+	var codeStatic;
+	var manip = driverEditor.getSession().getValue(); //may need to put this to string.
+	var curDate = new Date();
+	var curDateX = curDate.toString();
+	codeStatic = curDateX + "***********************************\n" + manip;
+	
+	return codeStatic;
+}
+
+// function to collect all chat messages between users for downloading gist
+function collectChat(){
+	
+}
