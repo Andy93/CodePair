@@ -72,12 +72,12 @@ function collectCode(){
 	var manip = driverEditor.getSession().getValue(); //may need to put this to string.
 	var curDate = new Date();
 	var curDateX = curDate.toString();
-	codeStatic = curDateX + "***********************************\n" + manip;
+	codeStatic = curDateX + "\n***********************************\n" + manip;
 	
 	return codeStatic;
 }
 
 // function to collect all chat messages between users for downloading gist
 function collectChat(){
-	
+	// grab chat messages then add to text file for download 
 }
