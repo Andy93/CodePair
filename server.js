@@ -4,7 +4,7 @@ var http = require('http').Server(app);
 var client = require('socket.io')(http);//.listen(8080).sockets;
 
 app.get('/', function(req, res){
-    res.sendFile(__dirname + '/static' + '/index.html');
+    res.sendFile(__dirname + '/static' + '/editor.html');
 });
 
 mongo.connect('mongodb://127.0.0.1/code', function(err, db){
