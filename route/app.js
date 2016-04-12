@@ -19,23 +19,36 @@ app.get('/NAV/', function (req, res) {
   console.log(req.url);
 });
 
-var x = '+([A-Z])+([0-9])+([A-Z])+'
+//var x = '+([A-Z])+([0-9])+([A-Z])+'
 
 app.get('/DRIVER/:id', function (req, res) {
   console.log(req.params.id);
   console.log(req.url);
   res.sendFile(path.join(__dirname+'/driver.html'));
+  //res.send({ driver: 1, nav: 0 });
 });
 
 app.get('/NAV/:id', function (req, res) {
-  res.sendFile(path.join(__dirname+'/nav.html'));
+  console.log(req.params.id);
   console.log(req.url);
-  res.send('session: ' + req.params.id);
+  res.sendFile(path.join(__dirname+'/nav.html'));
 });
 
 // route to javascript
 app.get('/function', function (req, res) {
   res.sendFile(path.join(__dirname+'/js/function2.js'));
+  console.log(req.url);
+});
+
+// route to Bootstrap CSS
+app.get('/css', function (req, res) {
+  res.sendFile(path.join(__dirname+'/bootstrap-3.3.6-dist'));
+  console.log(req.url);
+});
+
+// route to animation css
+app.get('/animation', function (req, res) {
+  res.sendFile(path.join(__dirname+'/animation.css'));
   console.log(req.url);
 });
 
