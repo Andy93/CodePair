@@ -2,9 +2,15 @@ var express = require('express');
 var app     = express();
 var path    = require("path");
 
+
+// ROUTES ---------------------------------------------------------
 app.use(express.static('route'));
 
 //possible routes
+app.get('', function (req, res) {
+  res.sendFile(path.join(__dirname+'/homepage.html'));
+});
+
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname+'/homepage.html'));
 });
@@ -51,7 +57,9 @@ app.get('/animation', function (req, res) {
   res.sendFile(path.join(__dirname+'/animation.css'));
   console.log(req.url);
 });
+// END OF ROUTES -------------------------------------------------------------
 
+//PORT
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
