@@ -1,0 +1,59 @@
+<!-- views/createString.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Creating Session</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body{ 
+            padding-top:80px;
+            background-image: url("https://pixabay.com/static/uploads/photo/2016/03/29/05/51/aztec-1287603_960_720.jpg");
+        }
+    </style>
+</head>
+<body>
+  <h1> Creating Session </h1>
+  <script>
+
+        function createString() {
+          var hash;
+          var firstWord = randomWord();
+          var secondWord = randomWord();
+          var number = Math.floor(Math.random()*999)+1;
+
+          hash = firstWord + number + secondWord;
+          return hash.toString();
+        } 
+
+        function randomWord(){
+          var words = ["Apple", "Apricot", "Avocado", "Banana", "Blackberry", "Blueberry", "Cherry", "Grapefruit", "Lemon", "Lime",
+                        "Coconut","Kiwi","Peach","Pear","Pineapple","Melon","Watermelon","Raspberry","Strawberry","Hanger",
+                        "Grape","Plum","London","Dublin","Moscow","Berlin","Madrid","Paris","Stockholm","Vienna",
+                        "Chair","Texas","California","Nevada","Florida","Montana","Bravo","Delta","Echo","Hotel",
+                        "Tango","Whiskey","Foxtrot","Golf","Zulu","Yankee","Magnet","Button","Watch","Red",
+                        "White","Green","Black","Yellow","Grey","Blue","Pink","Purple","Diary","Bottle",
+                        "Water","Fire","Wind","Sweet","Sugar","Stamp","Brush","Small","Medium","Large",
+                        "Brown","Piano","Guitar","Canvas","Carrot","Mouse","Dog","Cat","Squirrel","Truck",
+                        "Rabbit","Toothbrush","Chalk","Puddle","Elephant","Giraffe","Frog","Falcon","Eagle","Parrot",
+                        "Shark","Tiger","Butterfly","Turtle","Snake","Fish","Whale","Walrus","Kangaroo","Wolverine"];
+          return words[(Math.floor(Math.random()*100)+0)];
+        }
+        
+        var session = createString();
+        console.log(session);
+
+        var url = window.location.href;
+        console.log(url);
+
+        var urlNew = url + "" + session;
+        console.log(urlNew);
+
+        window.location.href = urlNew;
+        //var link = "file:///C:/Users/Andrew/Desktop/CodePair/Editor/ace-builds-master/editor.html/"+ session;
+        //link.href = "C:/Users/Andrew/Desktop/CodePair/Editor/ace-builds-master/editor.html/" + session;
+        location.replace(link);
+        console.log(link);
+  </script>
+</body>
+</html>

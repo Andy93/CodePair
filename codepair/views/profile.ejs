@@ -1,0 +1,77 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+    <title>Node Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body{ 
+            padding-top:80px;
+            background-image: url("https://pixabay.com/static/uploads/photo/2016/03/29/05/51/aztec-1287603_960_720.jpg");
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">'<'/CodePair'>'</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a>Hi <%= user.local.email %></a></li>
+            <li><a href="/logout">Sign out</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+</nav>
+
+<div class="container">
+
+    <div class="jumbotron text-center">
+        <h1><span class="fa fa-graduation-cap"></span> User Information</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Local</h3>
+
+                    <p>
+                        <strong>id</strong>: <%= user._id %><br>
+                        <strong>email</strong>: <%= user.local.email %><br>
+                        <strong>password</strong>: <%= user.local.password %><br>
+                        <p></p>
+                        <button type="submit" class="btn btn-warning btn-md">Delete User</button>
+                    </p>
+
+            </div>
+        </div>
+
+        <!-- CREATE SESSION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-code"></span> Create Session</h3>
+
+                    <p>
+                        Create a session as a Driver by clicking the button below.
+                    </p>
+                    <a href="/DRIVER/" class="btn btn-success btn-md" role="button">Create Session</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
