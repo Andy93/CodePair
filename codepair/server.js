@@ -19,8 +19,8 @@ var configDB = require('./config/databases.js');
 var fs = require('fs');
 
 var	http = require('http').Server(app);
-var mongo = require('mongodb').MongoClient;
-var	client = require('socket.io')(http);
+var mongo = require('mongodb').MongoClient,
+	client = require('socket.io').listen(http).sockets;
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
@@ -50,32 +50,93 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
 // sending code ================================================================
-mongo.connect('mongodb://127.0.0.1/chat212', function(err, db){
+mongo.connect(configDB.url, function(err, db){
 	if(err) throw err;
 
 	client.on('connection', function(socket){
-
-		var col = db.collection('messages');
-
-		col.find().limit(1).sort({_id: 1}).toArray(function(err, res){
-			if(err) throw err;
-			socket.emit('output',res);
-		});
-		
-		socket.on('input', function(data){
+		var col = db.collection('code');
+		//send code
+		socket.on('codeDriver',function(data){
+			var session = data.session;
 			var code = data.code;
-
-			client.emit('output', [data]);
-			console.log(data);
-			col.insert({code: code}, function(){
-				console.log("inserted");
-			})
+			client.emit('codeNavigator', [data]);
+			col.insert({session:session, code:code}, function(){
+				console.log("HERE");
+			});
+		
+			col.find({session:session}).limit(1).sort({_id:-1}).toArray(function(err, res) {
+				if(err) throw err;
+				console.log(res);
+				//client.emit('codeNavigator', res);
+			});
 		});
-
 	});
 });
 
 // sending chat ================================================================
+
+mongo.connect(configDB.url, function(err, db){
+	if(err) throw err;
+
+	client.on('connection', function(socket){
+		var col = db.collection('messages'),
+			sendStatus = function(s) {
+				socket.emit('status', s);
+			};
+
+		// Emit all messages
+		col.find().limit(100).sort({_id: 1}).toArray(function(err, res) {
+			if(err) throw err;
+			socket.emit('output', res);
+		});
+
+		//wait for input
+		socket.on('input',function(data){
+			var name = data.name,
+				sessionId = data.sessionId,
+				message = data.message,
+				whitespacePattern = /^\s*$/;
+
+			if(whitespacePattern.test(name) || whitespacePattern.test(message)){
+				sendStatus('Name and Message is required.');
+			}else{
+				col.insert({sessionId: sessionId,name: name, message: message}, function(){
+
+
+					// Emit latest message to All Clients
+					client.emit('output', [data]);
+
+					sendStatus({
+						message: "Message sent",
+						clear: true
+					});
+				});
+			}
+		});
+
+		var collection2 = db.collection('code');
+		
+
+		//send code
+		
+
+		//get code
+		//socket.on('codeNavigator',function(data){
+			
+		//});
+
+		// delete user
+		var col2 = db.collection('users');
+		socket.on('userDelete',function(data){
+			var email = data.email;
+			console.log(data.email);
+			col2.deleteOne({"local.email":email}, function(){
+				console.log("successful deletion");
+			});
+		});
+
+	});
+});
 
 // launch ======================================================================
 http.listen(port);
