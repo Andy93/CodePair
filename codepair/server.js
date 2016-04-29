@@ -141,3 +141,24 @@ mongo.connect(configDB.url, function(err, db){
 // launch ======================================================================
 http.listen(port);
 console.log('The magic happens on port ' + port);
+
+/*
+		//send code
+		socket.on('codeDriver',function(data){
+			var session = data.session;
+			var code = data.code;
+				client.emit('codeNavigator', [data]);
+			if(data.length){
+				collection2.insert({session:session, code:code}, function(){
+					console.log("HERE");
+					
+				});
+			}
+		
+			collection2.find({session:session}).limit(1).sort({_id:-1}).toArray(function(err, res) {
+				if(err) throw err;
+				console.log(res);
+				//client.emit('codeNavigator', res);
+			});
+		});
+*/
